@@ -1,22 +1,24 @@
-const http = require("http");
-const fs = require("fs");
-const url = require("url");
+const express = require("express");
+const app = express();
+const path = require("path");
+const port = 3000;
 
-http
-  .createServer((req, res) => {
-    const q = url.parse(req.url, true);
-    const filename = "." + q.pathname;
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./index.html"));
+});
 
-    fs.readFile(filename, (err, data) => {
-      if (err) {
-        console.log(filename);
-        res.writeHead(404, { "Content-Type": "text/html" });
-        return res.end("404 Page not found");
-      }
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "./about.html"));
+});
 
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.write(data);
-      return res.end();
-    });
-  })
-  .listen(8080);
+app.get("/contact", (req, res) => {
+  res.sendFile(path.join(__dirname, "./contact-me.html"));
+});
+
+app.get("*", (req, res) => {
+  res.send("The path does not exist, try again", 404);
+});
+
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
