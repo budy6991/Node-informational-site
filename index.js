@@ -16,7 +16,7 @@ app.get("/contact", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.send("The path does not exist, try again", 404);
+  res.send("404 page not found", 404);
 });
 
 app.listen(port, () => {
